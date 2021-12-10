@@ -43,13 +43,18 @@ citation("paracorp")
 ```
 
 The **paracorp** package is part of the following [research
-project](https://udayananetworking.unud.ac.id/lecturer/research/880-gede-primahadi-wijaya-rajeg/a-model-for-translation-study-based-on-english-indonesian-translation-database-and-its-pedagogical-implication-1179):
+project](https://udayananetworking.unud.ac.id/lecturer/research/880-gede-primahadi-wijaya-rajeg/a-model-for-translation-study-based-on-english-indonesian-translation-database-and-its-pedagogical-implication-1179)
+([Rajeg, Rajeg, Kartini, et al. 2021b](#ref-rajeg_material_2021)):
 
 > Rajeg, Gede Primahadi Wijaya, I Made Rajeg, Putu Dea Indah Kartini & I
 > Gede Semara Dharma Putra. 2021. Material pendukung untuk *MODEL KAJIAN
 > TERJEMAHAN BERBASIS BANK DATA TERJEMAHAN DIGITAL INGGRIS-INDONESIA DAN
 > IMPLIKASI PEDAGOGISNYA*. Open Science Framework.
 > <https://doi.org/10.17605/OSF.IO/Y6ESA>. <https://osf.io/y6esa/>.
+
+The output of the research has been disseminated in several seminars
+([Rajeg, Rajeg, Kartini, et al. 2021a](#ref-rajeg_pemanfaatan_2021);
+[Rajeg, Rajeg, Putra, et al. 2021](#ref-rajeg_derajat_2021)).
 
 ## Installation
 
@@ -65,9 +70,11 @@ devtools::install_github("gederajeg/paracorp")
 
 The **paracorp** package comes with internal sample data of
 English-Indonesian parallel corpora from the science genre developed by
-the PAN BPPT project \[citation\]. The data are available in the form of
-character vectors called `sci_en` (for the English text) whose line is
-aligned with the Indonesian version (`sci_id`).
+the PAN BPPT project ([Adriani and Riza
+2009](#ref-adriani_development_2009); [BPPT
+2009](#ref-bppt_statistical_2009)). The data are available in the form
+of character vectors called `sci_en` (for the English text) whose line
+is aligned with the Indonesian version (`sci_id`).
 
 The codes below shows how to generate a parallel concordance for the
 English modal verb “should” as the target, search-term and present the
@@ -90,14 +97,14 @@ my_para_conc <- para_conc(source_text = sci_en,
 #> Saving the output concordance file (called: 'parallel_conc.txt') in '/Users/Primahadi/Documents/r-packages/paracorp'.
 head(my_para_conc)
 #> # A tibble: 6 x 4
-#>   LEFT                   NODE   RIGHT                 TRANSLATION               
-#>   <chr>                  <chr>  <chr>                 <chr>                     
-#> 1 This enzyme should cr… should also react to the ho… "Enzim ini tentunya menja…
-#> 2 You                    should be able to control n… "Anda seharusnya dapat me…
-#> 3 It                     should be admitted that ini… "Perlu diakui bahwa untuk…
-#> 4 The minor improvement… should be as readily preser… "Perubahan kecil dari gen…
-#> 5 Since electric cannot… should be continuously dist… "Karena listrik tidak dap…
-#> 6 This was doubly ironi… should be denigrated rather… "Hal ini sangat ironis, k…
+#>   LEFT                 NODE   RIGHT                  TRANSLATION                
+#>   <chr>                <chr>  <chr>                  <chr>                      
+#> 1 Very often there ar… should actually not be used … "Pemakaian granat gas seri…
+#> 2 This enzyme should … should also react to the hol… "Enzim ini tentunya menjad…
+#> 3 You                  should be able to control no… "Anda seharusnya dapat men…
+#> 4 It                   should be admitted that init… "Perlu diakui bahwa untuk …
+#> 5 The impression of d… should be changed             "Kesan menjijikan dan simb…
+#> 6 To reach that, a co… should be created, either in… "Untuk menggapainya, harus…
 ```
 
 The printed messages show that, by default, `para_conc()` also saves the
@@ -128,10 +135,10 @@ head(my_para_conc)
 #>   <chr>                 <chr>   <chr>                 <chr>                     
 #> 1 Main game menyebabka… seharu… , bahkan mungkin men… Playing game causes child…
 #> 2 Lebih penting lagi, … seharu… ada dalam rekaman fo… More importantly, the rem…
-#> 3 Adanya pendahulu-bur… seharu… benar-benar ada.      It is a purely hypothetic…
-#> 4 Manusia memang        seharu… berkaca pada alam.    The mankind is supposed t…
-#> 5 Anda                  seharu… dapat mengendalikan … You should be able to con…
-#> 6 Perubahan kecil dari… seharu… dapat terfosilkan ju… The minor improvements in…
+#> 3 Bentuk peralihan yan… seharu… ada, mengapa kita ta… innumerable transitional …
+#> 4 Adanya pendahulu-bur… seharu… benar-benar ada.      It is a purely hypothetic…
+#> 5 Manusia memang        seharu… berkaca pada alam.    The mankind is supposed t…
+#> 6 Anda                  seharu… dapat mengendalikan … You should be able to con…
 ```
 
 Here is the R session info for this repository.
@@ -208,3 +215,58 @@ devtools::session_info()
 #> [1] /Users/Primahadi/Rlibs
 #> [2] /Library/Frameworks/R.framework/Versions/4.0/Resources/library
 ```
+
+## References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-adriani_development_2009" class="csl-entry">
+
+Adriani, Mirna, and Hammam Riza. 2009. “Development of Indonesian
+Language Resources and Translation System.” PAN Localization Project on
+Local Language Computing. Jakarta: University of Indonesia & Badan
+Pengkajian dan Penerapan Teknologi (BPPT) (Agency for the Assessment and
+Application of Technology)).
+<http://www.panl10n.net/english/outputs/Indonesia/FinalReportID.pdf>.
+
+</div>
+
+<div id="ref-bppt_statistical_2009" class="csl-entry">
+
+BPPT. 2009. “Statistical Machine Translation for Bahasa
+Indonesia-English and English-Bahasa Indonesia.” PAN Localization
+Project on Local Language Computing. Jakarta: Badan Pengkajian dan
+Penerapan Teknologi (BPPT) (Agency for the Assessment and Application of
+Technology)).
+<http://www.panl10n.net/english/outputs/Indonesia/BPPT/0902/SMTFinalReport.pdf>.
+
+</div>
+
+<div id="ref-rajeg_pemanfaatan_2021" class="csl-entry">
+
+Rajeg, Gede Primahadi Wijaya, I Made Rajeg, Putu Dea Indah Kartini, and
+I Gede Semara Dharma Putra. 2021a. “Pemanfaatan Bank-Data Digital
+Dwibahasa Dalam Kajian Terjemahan: Studi Kasus Padanan Bahasa Indonesia
+Untuk Verba Sinonim Bahasa Inggris ROB & STEAL.” Paper.
+<https://doi.org/10.6084/m9.figshare.17078369>.
+
+</div>
+
+<div id="ref-rajeg_material_2021" class="csl-entry">
+
+———. 2021b. “Material Pendukung Untuk *MODEL KAJIAN TERJEMAHAN BERBASIS
+BANK DATA TERJEMAHAN DIGITAL INGGRIS-INDONESIA DAN IMPLIKASI
+PEDAGOGISNYA*,” November. <https://doi.org/10.17605/OSF.IO/Y6ESA>.
+
+</div>
+
+<div id="ref-rajeg_derajat_2021" class="csl-entry">
+
+Rajeg, Gede Primahadi Wijaya, I Made Rajeg, I Gede Semara Dharma Putra,
+and Putu Dea Indah Kartini. 2021. “Derajat Kesepadanan Konstruksional
+Terjemahan Verba Bahasa Inggris *ROB* Dalam Bahasa Indonesia.” Paper.
+<https://doi.org/10.6084/m9.figshare.17078384>.
+
+</div>
+
+</div>

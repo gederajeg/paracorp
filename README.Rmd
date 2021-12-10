@@ -1,5 +1,7 @@
 ---
 output: github_document
+bibliography: mybibs.bib
+link-citations: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -28,9 +30,11 @@ citation("paracorp")
 ```
 
 
-The **paracorp** package is part of the following [research project](https://udayananetworking.unud.ac.id/lecturer/research/880-gede-primahadi-wijaya-rajeg/a-model-for-translation-study-based-on-english-indonesian-translation-database-and-its-pedagogical-implication-1179):
+The **paracorp** package is part of the following [research project](https://udayananetworking.unud.ac.id/lecturer/research/880-gede-primahadi-wijaya-rajeg/a-model-for-translation-study-based-on-english-indonesian-translation-database-and-its-pedagogical-implication-1179) [@rajeg_material_2021]:
 
 > Rajeg, Gede Primahadi Wijaya, I Made Rajeg, Putu Dea Indah Kartini & I Gede Semara Dharma Putra. 2021. Material pendukung untuk *MODEL KAJIAN TERJEMAHAN BERBASIS BANK DATA TERJEMAHAN DIGITAL INGGRIS-INDONESIA DAN IMPLIKASI PEDAGOGISNYA*. Open Science Framework. https://doi.org/10.17605/OSF.IO/Y6ESA. https://osf.io/y6esa/.
+
+The output of the research has been disseminated in several seminars [@rajeg_pemanfaatan_2021; @rajeg_derajat_2021].
 
 ## Installation
 
@@ -43,7 +47,7 @@ devtools::install_github("gederajeg/paracorp")
 
 ## Example
 
-The **paracorp** package comes with internal sample data of English-Indonesian parallel corpora from the science genre developed by the PAN BPPT project [citation]. The data are available in the form of character vectors called `sci_en` (for the English text) whose line is aligned with the Indonesian version (`sci_id`).
+The **paracorp** package comes with internal sample data of English-Indonesian parallel corpora from the science genre developed by the PAN BPPT project [@adriani_development_2009; @bppt_statistical_2009]. The data are available in the form of character vectors called `sci_en` (for the English text) whose line is aligned with the Indonesian version (`sci_id`).
 
 The codes below shows how to generate a parallel concordance for the English modal verb "should" as the target, search-term and present the Indonesian translation (shown in the `TRANSLATION` column in the output table).
 
@@ -85,3 +89,4 @@ Here is the R session info for this repository.
 devtools::session_info()
 ```
 
+## References
