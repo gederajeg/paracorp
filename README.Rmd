@@ -1,0 +1,87 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# paracorp
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/gederajeg/paracorp/workflows/R-CMD-check/badge.svg)](https://github.com/gederajeg/paracorp/actions)
+[![Codecov test coverage](https://codecov.io/gh/gederajeg/paracorp/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gederajeg/paracorp?branch=main)
+[![](https://img.shields.io/badge/doi-10.17605/OSF.IO/HV9CU-lightblue.svg)](https://doi.org/10.17605/OSF.IO/HV9CU)
+<!-- badges: end -->
+
+The goal of **paracorp** is to provide an R functionality for generating parallel concordance (Keyword-in-Context [KWIC] display) from a parallel/bilingual corpora. The first attempt is implemented in the `para_conc()` function that is built on top of the [tidyverse](https://www.tidyverse.org/) suit of packages. Please use the following citation if **paracorp** is used in publications:
+
+```{r how-to-cite}
+citation("paracorp")
+```
+
+
+The **paracorp** package is part of the following [research project](https://udayananetworking.unud.ac.id/lecturer/research/880-gede-primahadi-wijaya-rajeg/a-model-for-translation-study-based-on-english-indonesian-translation-database-and-its-pedagogical-implication-1179):
+
+> Rajeg, Gede Primahadi Wijaya, I Made Rajeg, Putu Dea Indah Kartini & I Gede Semara Dharma Putra. 2021. Material pendukung untuk *MODEL KAJIAN TERJEMAHAN BERBASIS BANK DATA TERJEMAHAN DIGITAL INGGRIS-INDONESIA DAN IMPLIKASI PEDAGOGISNYA*. Open Science Framework. https://doi.org/10.17605/OSF.IO/Y6ESA. https://osf.io/y6esa/.
+
+## Installation
+
+You can install the development version of paracorp from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("gederajeg/paracorp")
+```
+
+## Example
+
+The **paracorp** package comes with internal sample data of English-Indonesian parallel corpora from the science genre developed by the PAN BPPT project [citation]. The data are available in the form of character vectors called `sci_en` (for the English text) whose line is aligned with the Indonesian version (`sci_id`).
+
+The codes below shows how to generate a parallel concordance for the English modal verb "should" as the target, search-term and present the Indonesian translation (shown in the `TRANSLATION` column in the output table).
+
+```{r example-eng-idn}
+library(paracorp) # load the package
+
+# in this example, the English text is used as the source text
+my_para_conc <- para_conc(source_text = sci_en, 
+                          target_text = sci_id, 
+                          pattern = "\\bshould\\b", # regular expression pattern
+                          conc_sample = 20) # retrieve 20 random concordance lines
+head(my_para_conc)
+
+```
+
+The printed messages show that, by default, `para_conc()` also saves the concordance into a tab-separated plain text (by default called `'parallel_conc.txt'`). This file can be opened in MS Excel for further corpus-based analyses.
+
+
+You can also switch the position of the input corpora. In the example below, the Indonesian text is considered as the source text and the input string in the `pattern` argument of `para_conc()` represents the Indonesian target, keyword.
+
+```{r example-idn-eng}
+# in this example, the Indonesian text is used as the source text
+my_para_conc <- para_conc(source_text = sci_id, 
+                          target_text = sci_en, 
+                          pattern = "\\bseharusnya\\b", # regular expression pattern
+                          conc_sample = 20) # retrieve 20 random concordance lines
+head(my_para_conc)
+```
+
+
+```{r delete-saved-file, echo = FALSE}
+unlink("parallel_conc.txt")
+```
+
+
+Here is the R session info for this repository.
+
+```{r sessinfo}
+devtools::session_info()
+```
+

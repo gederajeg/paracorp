@@ -1,0 +1,18 @@
+bibentry(bibtype = "Manual",
+  title = "paracorp: A concordancer for parallel, bilingual corpora",
+  author = person(given = "Gede Primahadi Wijaya", family = "Rajeg",
+                  email = "gpw.rajeg@gmail.com",
+                  role = c("aut", "cre"),
+                  comment = c(ORCID = "0000-0002-2047-8621")),
+  year = "2021",
+  doi = "10.17605/OSF.IO/HV9CU",
+  publisher = "GitHub and Open Science Framework (OSF)",
+  url = "https://github.com/gederajeg/paracorp",
+  note = "R package version 0.0.1",
+  header = "To cite `paracorp` in publications (in 'Unified style sheet for linguistics' style) use:",
+  textVersion = paste("Rajeg, Gede Primahadi Wijaya. 2021.",
+                "paracorp: A concordancer for parallel, bilingual corpora.",
+                "R package. https://doi.org/10.17605/OSF.IO/HV9CU",
+                "https://github.com/gederajeg/paracorp"),
+  key = "rajeg_paracorp_2021"
+)
