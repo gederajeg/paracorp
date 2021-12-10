@@ -2,5 +2,8 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^data-raw$
-parallel_conc.txt
+^parallel_conc.txt$
 ^README\.Rmd$
+^CITATION.cff$
+^\.github$
+^codecov\.yml$
