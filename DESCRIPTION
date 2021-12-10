@@ -1,0 +1,25 @@
+Package: paracorp
+Title: Concordancer for parallel, bilingual corpora
+Version: 0.0.0.9000
+Date: 2021-12-10
+Authors@R: 
+    person(given = "Gede Primahadi Wijaya", family = "Rajeg", email = "gpw.rajeg@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-2047-8621"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports: 
+    dplyr (>= 1.0.5),
+    purrr (>= 0.3.4),
+    readr (>= 1.4.0),
+    rlang (>= 0.4.11),
+    stringr (>= 1.4.0),
+    tibble (>= 3.1.0)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)
+LazyData: true

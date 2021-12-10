@@ -1,0 +1,5 @@
+^paracorp\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^data-raw$
+parallel_conc.txt
