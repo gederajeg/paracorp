@@ -43,9 +43,20 @@ para_conc <- function(source_text = "The source text corpus",
   search_term <- pattern
   samples <- conc_sample
 
-  message(paste("The output concordance file (called: '", filename,"') will be saved in this directory: '", getwd(), "'\n", sep = ""))
+  # check if the user wants to directly save the concordance output into tab-separated plain text
 
-  cat("LEFT\tNODE\tRIGHT\tTRANSLATION", file = filename, sep = "\n")
+  if (is.character(filename)) {
+
+    message(paste("The output concordance file (called: '", filename,"') will be saved in this directory: '", getwd(), "'\n", sep = ""))
+    message("The output concordance will ALSO be returned as a tibble data frame in the R console.\n")
+
+    cat("LEFT\tNODE\tRIGHT\tTRANSLATION", file = filename, sep = "\n")
+
+  } else if (filename == FALSE) {
+
+    message("The output concordance will be returned as a tibble data frame in the R console.\n")
+
+  }
 
   for (i in seq_along(search_term)) {
 
@@ -55,26 +66,72 @@ para_conc <- function(source_text = "The source text corpus",
 
       m <- m_st[m_id]
       message("Detecting the match/pattern...\n")
-      m_loc <- stringr::str_locate_all(m, stringr::regex(search_term[i], ignore_case = case_insensitive))
+      m_loc <- stringr::str_locate_all(m,
+                                       stringr::regex(search_term[i],
+                                                      ignore_case = case_insensitive))
       m_loc <- purrr::map(m_loc, tibble::as_tibble)
       m_loc <- purrr::map_df(m_loc, dplyr::bind_rows)
 
       # duplicate the number of subset text as many as the number of the match
-      m1 <- rep(m, stringr::str_count(m, stringr::regex(search_term[i], ignore_case = case_insensitive)))
-      m_id <- rep(m_id, stringr::str_count(m, stringr::regex(search_term[i], ignore_case = case_insensitive)))
+      m1 <- rep(m, stringr::str_count(m,
+                                      stringr::regex(search_term[i],
+                                                     ignore_case = case_insensitive)))
+      m_id <- rep(m_id, stringr::str_count(m,
+                                           stringr::regex(search_term[i],
+                                                          ignore_case = case_insensitive)))
 
       if (samples) {
 
-        message(paste("You choose to generate a ", samples, " random-sample of the concordance lines.\n", sep = ""))
-        message(paste("Creating a ", samples, " random-sample of the concordance lines...\n", sep = ""))
+        message(paste("You choose to generate a ",
+                      samples,
+                      " random-sample of the concordance lines.\n",
+                      sep = ""))
 
-        # sample count
-        sample_count <- sample(1:length(m1), samples)
+        if (samples < length(m1)) {
 
-        # retrieve random sample sentences
-        st_sample <- m1[sample_count]
-        tt_sample <- m_tt[m_id[sample_count]]
-        m_loc1 <- m_loc[sample_count, ]
+          # if the requested sample number is fewer than the number of matches, run the sampling
+          message(paste("Creating a ",
+                        samples,
+                        " random-sample of the concordance lines...\n",
+                        sep = ""))
+
+          # sample count
+          sample_count <- sample(1:length(m1), samples)
+
+          # retrieve random sample sentences
+          st_sample <- m1[sample_count]
+          tt_sample <- m_tt[m_id[sample_count]]
+          m_loc1 <- m_loc[sample_count, ]
+
+        } else if (samples == length(m1)) {
+
+          # if the requested sample number is equal to the number of matches, retrieve all matches
+          extent <- "equal to"
+
+          message(paste("The requested number of samples (", samples, ") is ",
+                        extent,
+                        " the number of matches (", length(m1), ").\nAll (", length(m1), ") matches will be returned.\n",
+                        sep = ""))
+
+          st_sample <- m1
+          tt_sample <- m_tt[m_id]
+          m_loc1 <- m_loc
+
+        } else if (samples > length(m1)) {
+
+          # if the requested sample number is greater than the number of matches, retrieve all matches
+          extent <- "greater than"
+
+          message(paste("The requested number of samples (", samples, ") is ",
+                        extent,
+                        " the number of matches (", length(m1), ").\nAll (", length(m1), ") matches will be returned.\n",
+                        sep = ""))
+
+          st_sample <- m1
+          tt_sample <- m_tt[m_id]
+          m_loc1 <- m_loc
+
+        }
 
       } else {
 
@@ -110,15 +167,30 @@ para_conc <- function(source_text = "The source text corpus",
                                   RIGHT = stringr::str_replace(RIGHT, "^-", '"-'),
                                   TRANSLATION = stringr::str_replace(TRANSLATION, "^-", '"-'))
 
-      message(paste("Saving the output concordance file (called: '", filename,"') in '", getwd(), "'.\n", sep = ""))
+      if (is.character(filename)) {
 
-      readr::write_tsv(dplyr::arrange(concord_df, dplyr::desc(NODE), RIGHT), filename, append = TRUE)
+        message(paste("Saving the output concordance file (called: '",
+                      filename,
+                      "') in '",
+                      getwd(),
+                      "'.\n",
+                      sep = ""))
 
-      return(dplyr::arrange(concord_df, dplyr::desc(NODE), RIGHT))
+        readr::write_tsv(dplyr::arrange(concord_df, dplyr::desc(NODE), RIGHT),
+                         filename,
+                         append = TRUE)
+
+        return(dplyr::arrange(concord_df, dplyr::desc(NODE), RIGHT))
+
+      } else if (filename == FALSE) {
+
+        return(dplyr::arrange(concord_df, dplyr::desc(NODE), RIGHT))
+
+      }
 
     } else {
 
-      message("Sorry; no match found! Try another corpus/pattern!\n")
+      message("Sorry; NO match(es) found! Try another corpus/pattern!\nN.B. Have you also checked that the source-text language matches with the language of the search pattern?")
 
     }
 
