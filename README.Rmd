@@ -45,11 +45,11 @@ You can install the development version of paracorp from [GitHub](https://github
 devtools::install_github("gederajeg/paracorp")
 ```
 
-## Example
+## Examples
 
 The **paracorp** package comes with internal sample data of English-Indonesian parallel corpora from the science genre developed by the PAN BPPT project [@adriani_development_2009; @bppt_statistical_2009]. The data are available in the form of character vectors called `sci_en` (for the English text) whose line is aligned with the Indonesian version (`sci_id`).
 
-The codes below shows how to generate a parallel concordance for the English modal verb "should" as the target, search-term and present the Indonesian translation (shown in the `TRANSLATION` column in the output table).
+The code-snippet below shows how to generate a parallel concordance for the English modal verb "should" as the target, search-term and present the Indonesian translation (shown in the `TRANSLATION` column in the output table).
 
 ```{r example-eng-idn}
 library(paracorp) # load the package
@@ -59,23 +59,75 @@ my_para_conc <- para_conc(source_text = sci_en,
                           target_text = sci_id, 
                           pattern = "\\bshould\\b", # regular expression pattern
                           conc_sample = 20) # retrieve 20 random concordance lines
+
+# peek into the results as tibble/data frame
 head(my_para_conc)
 
 ```
 
-The printed messages show that, by default, `para_conc()` also saves the concordance into a tab-separated plain text (by default called `'parallel_conc.txt'`). This file can be opened in MS Excel for further corpus-based analyses.
+The printed messages show that, by default, `para_conc()` also saves the concordance into a tab-separated plain text (by default called `'parallel_conc.txt'`), in addition to returning a tibble/data frame format of the concordance. The tab-separated `'parallel_conc.txt'` file can be opened in MS Excel for further corpus-based analyses.
+
+### Suppressing the automatic plain-text output
+
+You can suppress the automatic plain-text-output behaviour by specifying `filename = FALSE` as shown below. In this situation, the output of `para_conc()` is only the tibble/data frame.
+
+```{r suppress-automatic-output}
+# suppress automatic output file behaviour with `filename = FALSE`
+my_para_conc <- para_conc(source_text = sci_en, 
+                          target_text = sci_id, 
+                          pattern = "\\bshould\\b", # regular expression pattern
+                          conc_sample = 20, # retrieve 20 random concordance lines
+                          filename = FALSE) # suppress automatic output file 
+
+# peek into the results as tibble/data frame
+head(my_para_conc)
+```
 
 
-You can also switch the position of the input corpora. In the example below, the Indonesian text is considered as the source text and the input string in the `pattern` argument of `para_conc()` represents the Indonesian target, keyword.
+### Switching the source- and target-text inputs
+
+Moreover, the position of the input corpora can be reversed depending on the nature of the corpora or the research question(s). In the example below, the Indonesian text is entered into the `source_text` argument while the English text is entered into the `target_text` argument. In this case, the input string in the `pattern` argument of `para_conc()` should represent the Indonesian target-keyword.
 
 ```{r example-idn-eng}
 # in this example, the Indonesian text is used as the source text
 my_para_conc <- para_conc(source_text = sci_id, 
                           target_text = sci_en, 
-                          pattern = "\\bseharusnya\\b", # regular expression pattern
+                          pattern = "\\bmungkin\\b", # regular expression pattern
                           conc_sample = 20) # retrieve 20 random concordance lines
+
+# peek into the results as tibble/data frame
 head(my_para_conc)
 ```
+
+### Sampling numbers
+
+If the requested number of sample (out of all matches) is **greater than** or **equal to** the number of matches of the search pattern, `para_conc()` will print messages indicating these situations, and will retrieve all matches found, rather than generating sample that is supposed to be fewer than the total matches.
+
+The snippet below shows the scenario and printed message when the requested number of sample is **equal to** the number of matches.
+
+```{r sample-number-behaviour-1}
+# sample number requested is equal to the matches
+para_conc(sci_en, sci_id, pattern = "should", conc_sample = 64, filename = FALSE)
+```
+
+Meanwhile, the snippet below shows the scenario and printed message when the requested number of sample is **greater than** the number of matches.
+
+```{r sample-number-behaviour-2}
+# sample number requested is greater than the matches
+para_conc(sci_en, sci_id, pattern = "should", conc_sample = 67, filename = FALSE)
+```
+
+### No matches
+
+When no matches were found for the string given in the `pattern` argument, `para_conc()` will also print out the message informing so and no output will be produced. See the example below.
+
+```{r no-match}
+# For instance, searching for an Indonesian word when the source text is in English
+# will most likely produce such no-match message.
+para_conc(sci_en, sci_id, pattern = "\\bmungkin\\b", conc_sample = 20, filename = FALSE)
+
+```
+
 
 
 ```{r delete-saved-file, echo = FALSE}
@@ -83,7 +135,7 @@ unlink("parallel_conc.txt")
 ```
 
 
-Here is the R session info for this repository.
+## R Session Info
 
 ```{r sessinfo}
 devtools::session_info()

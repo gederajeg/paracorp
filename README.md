@@ -66,7 +66,7 @@ You can install the development version of paracorp from
 devtools::install_github("gederajeg/paracorp")
 ```
 
-## Example
+## Examples
 
 The **paracorp** package comes with internal sample data of
 English-Indonesian parallel corpora from the science genre developed by
@@ -76,10 +76,10 @@ the PAN BPPT project ([Adriani and Riza
 of character vectors called `sci_en` (for the English text) whose line
 is aligned with the Indonesian version (`sci_id`).
 
-The codes below shows how to generate a parallel concordance for the
-English modal verb “should” as the target, search-term and present the
-Indonesian translation (shown in the `TRANSLATION` column in the output
-table).
+The code-snippet below shows how to generate a parallel concordance for
+the English modal verb “should” as the target, search-term and present
+the Indonesian translation (shown in the `TRANSLATION` column in the
+output table).
 
 ``` r
 library(paracorp) # load the package
@@ -90,58 +90,181 @@ my_para_conc <- para_conc(source_text = sci_en,
                           pattern = "\\bshould\\b", # regular expression pattern
                           conc_sample = 20) # retrieve 20 random concordance lines
 #> The output concordance file (called: 'parallel_conc.txt') will be saved in this directory: '/Users/Primahadi/Documents/r-packages/paracorp'
+#> The output concordance will ALSO be returned as a tibble data frame in the R console.
 #> Detecting the match/pattern...
 #> You choose to generate a 20 random-sample of the concordance lines.
 #> Creating a 20 random-sample of the concordance lines...
 #> Generating the concordance for the match/pattern...
 #> Saving the output concordance file (called: 'parallel_conc.txt') in '/Users/Primahadi/Documents/r-packages/paracorp'.
+
+# peek into the results as tibble/data frame
 head(my_para_conc)
 #> # A tibble: 6 x 4
-#>   LEFT                 NODE   RIGHT                  TRANSLATION                
-#>   <chr>                <chr>  <chr>                  <chr>                      
-#> 1 Very often there ar… should actually not be used … "Pemakaian granat gas seri…
-#> 2 This enzyme should … should also react to the hol… "Enzim ini tentunya menjad…
-#> 3 You                  should be able to control no… "Anda seharusnya dapat men…
-#> 4 It                   should be admitted that init… "Perlu diakui bahwa untuk …
-#> 5 The impression of d… should be changed             "Kesan menjijikan dan simb…
-#> 6 To reach that, a co… should be created, either in… "Untuk menggapainya, harus…
+#>   LEFT                     NODE  RIGHT               TRANSLATION                
+#>   <chr>                    <chr> <chr>               <chr>                      
+#> 1 You                      shou… be able to control… "Anda seharusnya dapat men…
+#> 2 It                       shou… be admitted that i… "Perlu diakui bahwa untuk …
+#> 3 This was doubly ironica… shou… be denigrated rath… "Hal ini sangat ironis, ka…
+#> 4 The government           shou… be more proactive … "Hendaknya pemerintah lebi…
+#> 5 Recently a chemist prop… shou… be named guacamole. "Seorang kimiawan baru-bar…
+#> 6 To prevent the incidenc… shou… be parked in a loc… "Untuk menghindari terjadi…
 ```
 
 The printed messages show that, by default, `para_conc()` also saves the
 concordance into a tab-separated plain text (by default called
-`'parallel_conc.txt'`). This file can be opened in MS Excel for further
-corpus-based analyses.
+`'parallel_conc.txt'`), in addition to returning a tibble/data frame
+format of the concordance. The tab-separated `'parallel_conc.txt'` file
+can be opened in MS Excel for further corpus-based analyses.
 
-You can also switch the position of the input corpora. In the example
-below, the Indonesian text is considered as the source text and the
-input string in the `pattern` argument of `para_conc()` represents the
-Indonesian target, keyword.
+### Suppressing the automatic plain-text output
+
+You can suppress the automatic plain-text-output behaviour by specifying
+`filename = FALSE` as shown below. In this situation, the output of
+`para_conc()` is only the tibble/data frame.
+
+``` r
+# suppress automatic output file behaviour with `filename = FALSE`
+my_para_conc <- para_conc(source_text = sci_en, 
+                          target_text = sci_id, 
+                          pattern = "\\bshould\\b", # regular expression pattern
+                          conc_sample = 20, # retrieve 20 random concordance lines
+                          filename = FALSE) # suppress automatic output file 
+#> The output concordance will be returned as a tibble data frame in the R console.
+#> Detecting the match/pattern...
+#> You choose to generate a 20 random-sample of the concordance lines.
+#> Creating a 20 random-sample of the concordance lines...
+#> Generating the concordance for the match/pattern...
+
+# peek into the results as tibble/data frame
+head(my_para_conc)
+#> # A tibble: 6 x 4
+#>   LEFT                 NODE   RIGHT                  TRANSLATION                
+#>   <chr>                <chr>  <chr>                  <chr>                      
+#> 1 Moreover, with its … should actually be an endles… "Apalagi dengan ragam buda…
+#> 2 Very often there ar… should actually not be used … "Pemakaian granat gas seri…
+#> 3 This enzyme should … should also react to the hol… "Enzim ini tentunya menjad…
+#> 4 This cannon          should be able to be used to… "Meriam ini harus bisa dig…
+#> 5 You                  should be able to control no… "Anda seharusnya dapat men…
+#> 6 The minor improveme… should be as readily preserv… "Perubahan kecil dari gene…
+```
+
+### Switching the source- and target-text inputs
+
+Moreover, the position of the input corpora can be reversed depending on
+the nature of the corpora or the research question(s). In the example
+below, the Indonesian text is entered into the `source_text` argument
+while the English text is entered into the `target_text` argument. In
+this case, the input string in the `pattern` argument of `para_conc()`
+should represent the Indonesian target-keyword.
 
 ``` r
 # in this example, the Indonesian text is used as the source text
 my_para_conc <- para_conc(source_text = sci_id, 
                           target_text = sci_en, 
-                          pattern = "\\bseharusnya\\b", # regular expression pattern
+                          pattern = "\\bmungkin\\b", # regular expression pattern
                           conc_sample = 20) # retrieve 20 random concordance lines
 #> The output concordance file (called: 'parallel_conc.txt') will be saved in this directory: '/Users/Primahadi/Documents/r-packages/paracorp'
+#> The output concordance will ALSO be returned as a tibble data frame in the R console.
 #> Detecting the match/pattern...
 #> You choose to generate a 20 random-sample of the concordance lines.
 #> Creating a 20 random-sample of the concordance lines...
 #> Generating the concordance for the match/pattern...
 #> Saving the output concordance file (called: 'parallel_conc.txt') in '/Users/Primahadi/Documents/r-packages/paracorp'.
+
+# peek into the results as tibble/data frame
 head(my_para_conc)
 #> # A tibble: 6 x 4
-#>   LEFT                  NODE    RIGHT                 TRANSLATION               
-#>   <chr>                 <chr>   <chr>                 <chr>                     
-#> 1 Main game menyebabka… seharu… , bahkan mungkin men… Playing game causes child…
-#> 2 Lebih penting lagi, … seharu… ada dalam rekaman fo… More importantly, the rem…
-#> 3 Bentuk peralihan yan… seharu… ada, mengapa kita ta… innumerable transitional …
-#> 4 Adanya pendahulu-bur… seharu… benar-benar ada.      It is a purely hypothetic…
-#> 5 Manusia memang        seharu… berkaca pada alam.    The mankind is supposed t…
-#> 6 Anda                  seharu… dapat mengendalikan … You should be able to con…
+#>   LEFT                    NODE   RIGHT               TRANSLATION                
+#>   <chr>                   <chr>  <chr>               <chr>                      
+#> 1 Bukan tidak             mungk… , alat elektronik … It is possible that the el…
+#> 2 Karena sel darah merah… mungk… , yakni harus memp… Since red blood cells have…
+#> 3 Tank dengan suspensi y… mungk… .                   Tanks with poor suspension…
+#> 4 Kantor Paten AS sendir… mungk… akan segera disetu… The Patent Office of  the …
+#> 5 Suatu kegiatan yang su… mungk… berjalan secara sp… It is impossible for a pla…
+#> 6 Sistem sonar dalam lum… mungk… berkembang bertaha… This sonar system in dolph…
 ```
 
-Here is the R session info for this repository.
+### Sampling numbers
+
+If the requested number of sample (out of all matches) is **greater
+than** or **equal to** the number of matches of the search pattern,
+`para_conc()` will print messages indicating these situations, and will
+retrieve all matches found, rather than generating sample that is
+supposed to be fewer than the total matches.
+
+The snippet below shows the scenario and printed message when the
+requested number of sample is **equal to** the number of matches.
+
+``` r
+# sample number requested is equal to the matches
+para_conc(sci_en, sci_id, pattern = "should", conc_sample = 64, filename = FALSE)
+#> The output concordance will be returned as a tibble data frame in the R console.
+#> Detecting the match/pattern...
+#> You choose to generate a 64 random-sample of the concordance lines.
+#> The requested number of samples (64) is equal to the number of matches (64).
+#> All (64) matches will be returned.
+#> Generating the concordance for the match/pattern...
+#> # A tibble: 64 x 4
+#>    LEFT                   NODE  RIGHT                 TRANSLATION               
+#>    <chr>                  <chr> <chr>                 <chr>                     
+#>  1 Moreover, with its di… shou… actually be an endle… "Apalagi dengan ragam bud…
+#>  2 Very often there are … shou… actually not be used… "Pemakaian granat gas ser…
+#>  3 This enzyme should cr… shou… also react to the ho… "Enzim ini tentunya menja…
+#>  4 When designating thes… shou… always be borne in m… "Ketika menentukan filum …
+#>  5 This cannon            shou… be able to be used t… "Meriam ini harus bisa di…
+#>  6 You                    shou… be able to control n… "Anda seharusnya dapat me…
+#>  7 Therefore, the will t… shou… be able to foresee t… "Oleh karena itu, kehenda…
+#>  8 It                     shou… be admitted that ini… "Perlu diakui bahwa untuk…
+#>  9 The minor improvement… shou… be as readily preser… "Perubahan kecil dari gen…
+#> 10 The process            shou… be carried by the do… "Proses tersebut harus di…
+#> # … with 54 more rows
+```
+
+Meanwhile, the snippet below shows the scenario and printed message when
+the requested number of sample is **greater than** the number of
+matches.
+
+``` r
+# sample number requested is greater than the matches
+para_conc(sci_en, sci_id, pattern = "should", conc_sample = 67, filename = FALSE)
+#> The output concordance will be returned as a tibble data frame in the R console.
+#> Detecting the match/pattern...
+#> You choose to generate a 67 random-sample of the concordance lines.
+#> The requested number of samples (67) is greater than the number of matches (64).
+#> All (64) matches will be returned.
+#> Generating the concordance for the match/pattern...
+#> # A tibble: 64 x 4
+#>    LEFT                   NODE  RIGHT                 TRANSLATION               
+#>    <chr>                  <chr> <chr>                 <chr>                     
+#>  1 Moreover, with its di… shou… actually be an endle… "Apalagi dengan ragam bud…
+#>  2 Very often there are … shou… actually not be used… "Pemakaian granat gas ser…
+#>  3 This enzyme should cr… shou… also react to the ho… "Enzim ini tentunya menja…
+#>  4 When designating thes… shou… always be borne in m… "Ketika menentukan filum …
+#>  5 This cannon            shou… be able to be used t… "Meriam ini harus bisa di…
+#>  6 You                    shou… be able to control n… "Anda seharusnya dapat me…
+#>  7 Therefore, the will t… shou… be able to foresee t… "Oleh karena itu, kehenda…
+#>  8 It                     shou… be admitted that ini… "Perlu diakui bahwa untuk…
+#>  9 The minor improvement… shou… be as readily preser… "Perubahan kecil dari gen…
+#> 10 The process            shou… be carried by the do… "Proses tersebut harus di…
+#> # … with 54 more rows
+```
+
+### No matches
+
+When no matches were found for the string given in the `pattern`
+argument, `para_conc()` will also print out the message informing so and
+no output will be produced. See the example below.
+
+``` r
+# For instance, searching for an Indonesian word when the source text is in English
+# will most likely produce such no-match message.
+para_conc(sci_en, sci_id, pattern = "\\bmungkin\\b", conc_sample = 20, filename = FALSE)
+#> The output concordance will be returned as a tibble data frame in the R console.
+#> Sorry; NO match(es) found! Try another corpus/pattern!
+#> N.B. Have you also checked that the source-text language matches with the language of the search pattern?
+```
+
+## R Session Info
 
 ``` r
 devtools::session_info()
@@ -155,7 +278,7 @@ devtools::session_info()
 #>  collate  en_US.UTF-8                 
 #>  ctype    en_US.UTF-8                 
 #>  tz       Asia/Makassar               
-#>  date     2021-12-10                  
+#>  date     2021-12-11                  
 #> 
 #> ─ Packages ───────────────────────────────────────────────────────────────────
 #>  package     * version date       lib source        
@@ -183,7 +306,7 @@ devtools::session_info()
 #>  lifecycle     1.0.0   2021-02-15 [1] CRAN (R 4.0.2)
 #>  magrittr      2.0.1   2020-11-17 [1] CRAN (R 4.0.2)
 #>  memoise       2.0.0   2021-01-26 [1] CRAN (R 4.0.2)
-#>  paracorp    * 0.0.1   2021-12-10 [1] local         
+#>  paracorp    * 0.0.1   2021-12-11 [1] local         
 #>  pillar        1.6.0   2021-04-13 [1] CRAN (R 4.0.2)
 #>  pkgbuild      1.3.0   2021-12-09 [1] CRAN (R 4.0.5)
 #>  pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.0.0)
