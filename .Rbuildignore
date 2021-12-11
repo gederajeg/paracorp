@@ -8,3 +8,5 @@
 ^\.github$
 ^codecov\.yml$
 ^mybibs.bib$
+^_pkgdown.yml$
+^docs$
