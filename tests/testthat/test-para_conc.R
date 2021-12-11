@@ -10,7 +10,7 @@ test_that("para_conc() works and generating messages", {
 })
 unlink("parallel_conc.txt")
 
-my_para_conc <- para_conc(sci_id, sci_en, pattern = "\\bseharusnya\\b", conc_sample = FALSE)
+my_para_conc <- para_conc(sci_id, sci_en, pattern = "\\bseharusnya\\b", conc_sample = FALSE, filename = FALSE)
 test_that("para_conc() works when the source and target texts are switched", {
   expect_output(str(my_para_conc), "tbl_df")
   expect_match(unique(my_para_conc$NODE), "seharusnya")
@@ -18,6 +18,11 @@ test_that("para_conc() works when the source and target texts are switched", {
 unlink("parallel_conc.txt")
 
 test_that("para_conc() works and generating messages", {
-  expect_message(str(para_conc(sci_en, sci_id, pattern = "sadfkadfjds;fld;saf", conc_sample = FALSE)), "no match found")
+  expect_message(str(para_conc(sci_en, sci_id, pattern = "sadfkadfjds;fld;saf", conc_sample = FALSE)), "(?i)(no) match([(]es[)])? found")
 })
 unlink("parallel_conc.txt")
+
+test_that("the codes for checking the number of samples and matches work", {
+  expect_message(para_conc(sci_en, sci_id, pattern = "should", conc_sample = 64), "equal to")
+  expect_message(para_conc(sci_en, sci_id, pattern = "should", conc_sample = 65), "greater than")
+})
