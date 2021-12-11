@@ -27,13 +27,20 @@ para_conc(
 \item{filename}{file name of the parallel concordance output}
 }
 \value{
-A tibble of parallel concordance with source-text node word and its left and right context, and their target-text translation
+A tibble of parallel concordance with source-text node word and its left and right context, and their target-text translation. By default, \code{para_conc()} also automatically saves the concordance into a tab-separated plain text named \code{"parallel_conc.txt"}. Users can specify their own output file name.
 }
 \description{
-Parallel concordance
+A function to generate a concordance from parallel, bilingual corpora.
 }
 \examples{
 para_conc(sci_en, sci_id, pattern = "should", conc_sample = 20)
-          # we delete the output file to remove warning in R CMD check
+          # we delete the automatic output file to remove warning in R CMD check
           unlink("parallel_conc.txt")
+
+          # example when automatic output file is suppressed with filename = FALSE
+          # and only producing a tibble/data frame.
+          para_conc(sci_en, sci_id,
+                    pattern = "should",
+                    conc_sample = 20,
+                    filename = FALSE) # suppress automatic output
 }
